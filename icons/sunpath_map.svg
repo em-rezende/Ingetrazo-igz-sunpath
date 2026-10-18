@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2026 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="5.4186mm" height="5.4186mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 541.86 541.86"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003"
+ xmlns:svg="http://www.w3.org/2000/svg">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#FEFEFE;stroke-width:16.93;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil4 {fill:none}
+    .fil3 {fill:#ED3237}
+    .fil1 {fill:#259AF1}
+    .fil0 {fill:#45B44A}
+    .fil2 {fill:#FFD359}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g>
+   <polygon class="fil0" points="109.53,152.48 61.1,338.75 139.92,339.04 220.93,432.48 470.26,298.34 432.33,152.48 "/>
+   <polygon class="fil1" points="61.1,338.75 139.92,339.04 220.93,432.48 470.26,298.34 529.17,524.92 12.7,524.92 "/>
+   <path class="fil2" d="M257.54 524.83l115.51 0 -78.72 -90.83 185.28 -99.67 -18.75 -72.11 -57.88 31.15 -102.52 -140.97 -84.28 0 126.22 173.55 -113.16 60.89 -73.77 -85.12 0 -0.01 -0.01 0 -84.73 0 -19.37 74.48 77.35 0c43.65,50.36 85.87,99.08 128.83,148.64z"/>
+  </g>
+  <path class="fil3" d="M414.94 347.12l97.86 -169.52c27.3,-47.49 16.56,-107.73 -25.47,-142.87 -42.03,-35.13 -103.22,-35.02 -145.12,0.28 -41.9,35.29 -52.63,95.2 -25.14,142.59l97.87 169.52zm45.2 -226.02c0,-24.97 -20.24,-45.21 -45.2,-45.21 -24.97,0 -45.21,20.24 -45.21,45.21 0,24.97 20.24,45.2 45.2,45.2 24.97,0 45.21,-20.23 45.21,-45.2z"/>
+  <path class="fil4 str0" d="M109.82 152.49l196.8 0c-12.18,-41.96 1.12,-88.2 35.89,-117.48 41.9,-35.3 103.09,-35.41 145.12,-0.28 42.03,35.14 52.77,95.38 25.47,142.87l-50.97 88.3 67.34 259.03 -516.47 0 96.82 -372.44zm350.62 -31.39c0,-24.97 -20.24,-45.21 -45.2,-45.21 -24.97,0 -45.21,20.24 -45.21,45.21 0,24.97 20.24,45.2 45.2,45.2 24.97,0 45.21,-20.23 45.21,-45.2z"/>
+ </g>
+</svg>

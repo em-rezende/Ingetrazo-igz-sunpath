@@ -1,0 +1,65 @@
+{
+  "_language": "Français",
+
+  "North": "Nord",
+  "Sunpath": "Course du Soleil",
+  "Set Sun": "Régler le Soleil",
+  "Set Sun Tool": "Outil Régler le Soleil",
+  "Set Center": "Définir le centre",
+  "Center:": "Centre :",
+  "Shadows on/off": "Ombres on/off",
+  "Sun Arrow": "Flèche du Soleil",
+  "Sun Vector": "Vecteur Solaire",
+  "Sun Dome": "Dôme Solaire",
+  "Calendar": "Calendrier",
+  "North rotation": "Rotation du nord",
+  "Set Location": "Définir l'emplacement",
+  "Enter Sun Angle": "Saisir l'angle solaire",
+
+  "Date": "Date",
+  "Time": "Heure",
+  "Close": "Fermer",
+  "Azimuth:": "Azimut :",
+  "Elevation:": "Élévation :",
+  "Az:": "Azimut :",
+  "El:": "Élévation :",
+
+  "Location": "Emplacement",
+  "Source": "Source",
+  "Coords": "Coordonnées",
+  "Load map": "Charger la carte",
+
+  "Diagram size": "Taille du diagramme",
+  "Analemas": "Analemmes",
+  "Hour labels": "Étiquettes d'heure",
+  "Date labels": "Étiquettes de date",
+  "Compass N": "Boussole N",
+
+  "Sun Angle (0-360)": "Angle solaire (0-360)",
+  "North rotation (degrees, 0-360)": "Rotation du nord (degrés, 0-360)",
+
+  "Date: {date}  Time: {time}": "Date : {date}  Heure : {time}",
+  "Lat: {lat}  Lon: {lon}": "Lat : {lat}  Lon : {lon}",
+  "Azimuth: {az}º  Elevation: {el}º": "Azimut : {az}º  Élévation : {el}º",
+
+  "July to December (2nd Semester)": "Juillet à Décembre (2e Semestre)",
+  "January to June (1st Semester)": "Janvier à Juin (1er Semestre)",
+  "Sun Dome active | Press TAB to toggle selection period (Current: {period})": "Dôme Solaire actif | Appuyez sur TAB pour changer la période de sélection (Actuel : {period})",
+  "Period: Jul-Dec (TAB)": "Période : Juil-Déc (TAB)",
+  "Period: Jan-Jun (TAB)": "Période : Jan-Juin (TAB)",
+
+  "Save PNG": "Enregistrer PNG",
+  "Export options": "Options d'exportation",
+  "Transparent background": "Fond transparent",
+  "If checked, the exported PNG will have a transparent background.": "Si coché, le PNG exporté aura un fond transparent.",
+  "The image will include the viewport and the solar overlay.": "L'image inclura la vue et la superposition solaire.",
+  "Continue": "Continuer",
+  "Cancel": "Annuler",
+  "Could not save the image to:\n{path}\n\nDetails:\n{details}": "Impossible d'enregistrer l'image dans :\n{path}\n\nDétails :\n{details}",
+  "Image saved: {path}": "Image enregistrée : {path}",
+  "Image saved (fallback): {path}": "Image enregistrée (secours) : {path}",
+
+  "Your input could not be understood. Please enter a number between 0 and 360.": "Votre saisie n'a pas pu être comprise. Veuillez saisir un nombre entre 0 et 360.",
+  "Could not locate the IngeTrazo main window.": "Impossible de localiser la fenêtre principale d'IngeTrazo.",
+  "Shadows are not available in this scene.": "Les ombres ne sont pas disponibles dans cette scène."
+}

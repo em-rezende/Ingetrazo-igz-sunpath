@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run static tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Verify catalog fingerprint
+        run: python packaging/build_extension.py --check
+
+      - name: Build extension archive
+        run: python packaging/build_extension.py --output dist/igz_sunpath.zip
+
+      - name: Upload archive
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: igz_sunpath
+          path: dist/igz_sunpath.zip
+          if-no-files-found: error
