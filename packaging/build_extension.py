@@ -16,7 +16,9 @@ That is the layout the IngeTrazo plugin loader and the community catalog
 both expect (a ``.zip`` with one folder containing ``__init__.py``).
 
 The build is deterministic: members are sorted, timestamps are fixed and
-permissions are normalised, so building the same sources twice yields the
+permissions are normalised.  Files are stored uncompressed, so the archive
+bytes do not depend on the zlib version of the Python that built it:
+building the same sources twice — or on another machine/Python — yields the
 same SHA-256.  That lets the catalog entry commit a stable fingerprint.
 A sidecar ``igz_sunpath.zip.sha256`` is written next to the archive.
 
@@ -196,11 +198,10 @@ def build(output: Path | None = None) -> tuple[Path, str, int]:
     output = output or (DIST / ARCHIVE_NAME)
     output.parent.mkdir(parents=True, exist_ok=True)
 
-    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED,
-                         compresslevel=9) as zf:
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_STORED) as zf:
         for arcname, src in package_members():
             info = zipfile.ZipInfo(arcname, date_time=FIXED_DATE)
-            info.compress_type = zipfile.ZIP_DEFLATED
+            info.compress_type = zipfile.ZIP_STORED
             info.create_system = 3          # Unix, so external_attr is used
             info.external_attr = 0o100644 << 16
             zf.writestr(info, src.read_bytes())

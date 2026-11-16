@@ -33,7 +33,9 @@ and all runtime code lives under `igz_sunpath/core/`.
 - **Source layout:** the former single-file module is split into
   `igz_sunpath/core/{state,toolbar,panel,overlay,overlay_paint,dome_geometry,solar_math,shadows,georef,scene_state,sun_animator,export_dialog,ffmpeg,capture,i18n_loader}.py`.
 - `packaging/build_extension.py` now packages that layout (`core/`,
-  `icons/`, `i18n/`, `screenshots/` and the docs) and writes a
+  `icons/`, `i18n/`, `screenshots/` and the docs), stores the members
+  uncompressed so the archive bytes do not depend on the zlib version
+  (stable SHA-256 on every Python) and writes a
   `dist/igz_sunpath.zip.sha256` sidecar next to the archive.
 - The toolbar object name is now `igz_sunpath_toolbar`; the **Sun Panel**
   action is appended only when the host provides `app.add_panel`.
