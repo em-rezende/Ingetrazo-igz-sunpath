@@ -40,5 +40,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: igz_sunpath
-          path: dist/igz_sunpath.zip
+          path: |
+            dist/igz_sunpath.zip
+            dist/igz_sunpath.zip.sha256
           if-no-files-found: error

@@ -2,104 +2,89 @@
 
 **English** · [Português (Brasil)](README_ptBR.md)
 
-A toolbar for [IngeTrazo](https://github.com/ingelibre/ingetrazo) that
-provides a full **solar analysis** workbench: shadow toggle, date and
+A toolbar and side panel for [IngeTrazo](https://github.com/ingelibre/ingetrazo)
+that provides a full **solar analysis** workbench: shadow toggle, date and
 time sliders, calendar, a 3D **sun vector** with on-screen compass, a
 dynamic **solar dome** (domus solar) with sun-path arcs and analemmas,
 project-location controls integrated with IngeTrazo's **Terreno**
-(Base Map) panel, and a **PNG export** of the current view.
+(Base Map) panel, **animation** of the sun along its path, and **PNG
+sequence / MP4 video export** of the animated viewport.
 
 - **Author:** Ezequiel M. Rezende
 - **Repository:** <https://github.com/em-rezende/Ingetrazo-igz-sunpath>
-- **Date:** 2026-10-18
-- **Version:** 1.0.0
+- **Date:** 2026-11-16
+- **Version:** 1.1.0
 - **Tested with:** IngeTrazo 0.5.8 (Windows)
 - **License:** [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html)
   (same as IngeTrazo — see [LICENSE](LICENSE))
 
 ---
 
-![IngeTrazo with the "Sun Path" toolbar and solar dome on screen](screenshots/igz_sunpath.png)
+![IngeTrazo with the "Sun Path" toolbar, side panel and solar dome on screen](screenshots/igz_sunpath.png)
 
-*The **Sun Path** toolbar on the top area — the shadow toggle, the
-sun-arrow toggle, the sun-vector toggle, the dome toggle, the **Set Sun
-Tool**, the **Set Center** pick, the **Calendar**, the **Set Location**
-map picker and the **Save PNG** export. On the screen: the 3D **solar
-dome** (sun-path arcs, red arc for the current day, analemmas, compass),
-the **sun vector** (orange) with its projection (grey dashed) and the
-**Azimut / Elevação** labels near the origin, the **Set Sun** dialog on
-the left, the **Calendar** dialog below it and the **on-screen compass**
-on the right with its **Date** / **Time** sliders.*
+*The **Sun Path** toolbar on the top area — shadows toggle, sun-arrow
+toggle, sun-vector toggle, dome toggle, **Set Sun**, **Calendar**,
+**Export Sequence / Video** and **Sun Panel**. On the screen: the 3D
+**solar dome** (sun-path arcs, red arc for the current day, analemmas,
+compass), the **sun vector** (orange) with its projection (grey dashed)
+and the **Az / El** labels near the origin, the **on-screen compass** on
+the right with its Date / Time sliders, the **Set Sun** dialog on the
+left and the **side panel** on the right.*
 
 ---
 
-## Tools Overview
+## Tools overview
 
 | Tool | Toolbar button | Icon | Description |
 | --- | --- | --- | --- |
-| **Shadows on/off** | Shadows on/off | ![Shadows](icons/sunpath_shadows.svg) | Toggles IngeTrazo's native shadows on or off. Works exactly like the host's own shadow toggle, but from the Sun Path toolbar. |
-| **Sun Arrow** | Sun Arrow | ![Sun Arrow](icons/sunpath_arrow.svg) | Shows/hides the **on-screen compass overlay** (top-right corner): rose with N/E/S/W, yellow dot at the sun's azimuth, info panel (date, time, lat, lon, azimuth, elevation) and the two **Date** / **Time** sliders. The whole overlay is draggable. |
-| **Sun Vector** | Sun Vector | ![Sun Vector](icons/sunpath_vector.svg) | Shows/hides the **3D sun vector**: an orange ray from the dome's origin to the sun's current position, with a ball at the tip, a grey dashed projection to the XY plane and a small dot at the origin. Also shows `Az` / `El` labels next to the origin and a `HH:MM` label next to the ball. Automatically **rotated by `North offset`**. |
-| **Sun Dome** | Sun Dome | ![Sun Dome](icons/sunpath_dome.svg) | Shows/hides the **solar dome** (domus solar): monthly sun-path arcs, the **current-day arc in red**, hour marks, sunrise/sunset date labels, analemmas and the ground compass. Cells between meridians are **clickable** — clicking sets date and time simultaneously, and switches on the **Sun Vector** (turns off **Sun Arrow**). Use **TAB** to switch the semester filter (Jan–Jun / Jul–Dec). |
-| **Set Sun Tool** | Set Sun Tool | ![Set Sun](icons/sunpath_tool.svg) | Opens the **Set Sun** dialog: date/time sliders, azimuth/elevation readout, north rotation, location box (source / coords / Set Location 🗺️ / Load map) and dome controls (diagram size, Set Center, analemmas/hours/dates/compass toggles) plus the four toggle buttons (Shadows on/off, Sun Arrow, Sun Vector, Sun Dome). |
-| **Set Center** | Set Center | ![Set Center](icons/sunpath_center.svg) | Enters **picking mode** to choose the dome's 3D origin by clicking anywhere in the viewport. The pick uses the host's **OSNAP engine** (vertices, edges, faces) — the `uses_snap` flag on the active tool is **temporarily patched to `True`** so the `SelectTool` resolves snap; it is restored when the pick finishes. A colored preview ball shows the snap type: yellow (vertex), cyan (edge), green (face), grey (plane). Cancel with **ESC** or **right-click**. |
-| **Calendar** | Calendar | ![Calendar](icons/sunpath_calendar.svg) | Opens a compact **calendar dialog** with a date picker and a `HH:mm` time editor. Both values are applied to `scene.shadows` immediately when you click **OK**. |
-| **Set Location** | Set Location | ![Set Location](icons/sunpath_map.svg) *(fallback 🗺️)* | Opens IngeTrazo's native **Terreno** map picker; applies the chosen latitude/longitude to `scene.georef` and refreshes the solar calculation. Optionally keeps the fetched map tiles (via the **Load map** checkbox in the dialog). |
-| **Save PNG** | Save PNG | ![Save PNG](icons/sunpath_screenshot.svg) | Opens a **mini-dialog with export options** (transparent background, yes/no), then a `QFileDialog`. Saves the current viewport to a **PNG**: in the **white** mode, the 3D model + solar overlay on a white background; in the **transparent** mode, **only the solar overlay** on a transparent background. Default filename is `sunpath_YYYYMMDD_HHmmss.png` in the user's *Pictures* folder; a confirmation is shown both in the status bar and in a message box. Works even if the IngeTrazo window is minimized. |
+| **Set Sun** | Set Sun | ![Set Sun](igz_sunpath/icons/sunpath_set_sun.svg) | Opens the **Set Sun** dialog: date/time sliders, azimuth/elevation readout, north rotation, location box (source / coords / Set Location / Load map) and dome controls (diagram size, Set Center, analemmas/hours/dates/compass toggles) plus the four toggle buttons (Shadows on/off, Sun Arrow, Sun Vector, Sun Dome) and the **animation** controls (Play / Stop, step per frame). |
+| **Calendar** | Calendar | ![Calendar](igz_sunpath/icons/sunpath_calendar.svg) | Opens a compact **calendar dialog** with a date picker and a `HH:mm` time editor. Both values are applied to `scene.shadows` immediately when you click **OK**. |
+| **Shadows on/off** | Shadows on/off | ![Shadows](igz_sunpath/icons/sunpath_shadows.svg) | Toggles IngeTrazo's native shadows on or off. Stays synchronised with the dialog button and the side panel. |
+| **Sun Arrow** | Sun Arrow | ![Sun Arrow](igz_sunpath/icons/sunpath_arrow.svg) | Shows/hides the **on-screen compass overlay** (top-right corner): rose with N/E/S/W, yellow dot at the sun's azimuth, info panel (date, time, lat, lon, azimuth, elevation) and the two **Date** / **Time** sliders. The whole overlay is draggable. |
+| **Sun Vector** | Sun Vector | ![Sun Vector](igz_sunpath/icons/sunpath_vector.svg) | Shows/hides the **3D sun vector**: an orange ray from the dome's origin to the sun's current position, with a ball at the tip, a grey dashed projection to the XY plane and a small dot at the origin. Also shows `Az` / `El` labels next to the origin and a `HH:MM` label next to the ball. Automatically **rotated by the North offset**. |
+| **Sun Dome** | Sun Dome | ![Sun Dome](igz_sunpath/icons/sunpath_dome.svg) | Shows/hides the **solar dome** (domus solar): monthly sun-path arcs, the **current-day arc in red**, hour marks, sunrise/sunset date labels, analemmas and the ground compass. Cells between meridians are **clickable** — clicking sets date and time simultaneously, and switches on the **Sun Vector** (turns off **Sun Arrow**). Use **TAB** to switch the semester filter (Jan–Jun / Jul–Dec). |
+| **Set Center** | Set Center | ![Set Center](igz_sunpath/icons/sunpath_center.svg) | Enters **picking mode** to choose the dome's 3D origin by clicking anywhere in the viewport. The pick uses the host's **OSNAP engine** (vertices, edges, faces) — the `uses_snap` flag on the active tool is **temporarily patched to `True`** so the `SelectTool` resolves snap; it is restored when the pick finishes. A colored preview ball shows the snap type: yellow (vertex), cyan (edge), green (face), grey (plane). Cancel with **ESC** or **right-click**. |
+| **Play** | Play | ![Play](igz_sunpath/icons/sunpath_play.svg) *(fallback ▶️)* | Starts the **sun animation** — advances the current time in steps (60, 30, 15, 10, 5 or 1 min per frame, configurable in the dialog or side panel) until sunset. The overlay, the vector and the dome update live. |
+| **Stop** | Stop | ![Stop](igz_sunpath/icons/sunpath_stop.svg) *(fallback ⏹️)* | Stops the running animation. |
+| **Export Sequence / Video** | Export Sequence / Video | ![Export](igz_sunpath/icons/sunpath_save.svg) | Opens the **ExportDialog**: choose output format (PNG image sequence or MP4 video), size (W × H), keep-aspect-ratio, include-dome, step-per-frame, then a file/folder picker. The animation runs and saves the frames (PNG) or renders the MP4. |
+| **Sun Panel** | Sun Panel | ![Sun Panel](igz_sunpath/icons/sunpath_panel.svg) *(fallback sunpath_center.svg)* | Shows/hides the **side panel** (dock) — a compact, always-visible version of the Set Sun controls: date/time sliders, north rotation, location box, dome controls, animation controls, export settings and FFmpeg status. The panel's components are **width-dynamic** — they follow the dock when the user resizes it. |
 
 ---
 
-## Files
+## Side panel
 
-```
-<plugins>/
-└── igz_sunpath/
-    ├── __init__.py              # package entry point (setup(app))
-    ├── igz_sunpath.py           # "Sun Path" toolbar (main module)
-    ├── README.md                # this file
-    ├── README_ptBR.md           # Portuguese version
-    ├── CHANGELOG.md             # release history
-    ├── PUBLISHING.md            # release + catalog submission guide
-    ├── LICENSE                  # full GPL-3.0 text
-    ├── THIRD-PARTY.md           # third-party notices
-    ├── icons/
-    │   ├── sunpath_arrow.svg    / sunpath_arrow_light.svg
-    │   ├── sunpath_calendar.svg / sunpath_calendar_light.svg
-    │   ├── sunpath_center.svg   / sunpath_center_light.svg
-    │   ├── sunpath_dome.svg     / sunpath_dome_light.svg
-    │   ├── sunpath_map.svg      / sunpath_map_light.svg
-    │   ├── sunpath_screenshot.svg  / sunpath_screenshot_light.svg
-    │   ├── sunpath_shadows.svg  / sunpath_shadows_light.svg
-    │   ├── sunpath_tool.svg     / sunpath_tool_light.svg
-    │   └── sunpath_vector.svg   / sunpath_vector_light.svg
-    ├── i18n/
-    │   ├── en.json
-    │   ├── pt-BR.json
-    │   ├── de.json
-    │   ├── es.json
-    │   ├── fr.json
-    │   ├── it.json
-    │   └── zh-CN.json
-    └── screenshots/
-        └── igz_sunpath.png
-```
+The **Sun Panel** button in the toolbar shows a dockable side panel with a
+**responsive, scrollable** layout. Unlike the floating dialog, the side
+panel is meant to stay open while you work — its components
+(sliders, combos, spin boxes, line edits) **stretch and shrink with the
+dock width**, thanks to a dynamic-width polish applied after construction
+and re-applied on resize.
 
-The repository also carries the release tooling (not needed at runtime):
+The panel contains:
 
-```
-packaging/   build_extension.py / .ps1, igz_sunpath.toml
-tests/       static tests + optional PySide6 GUI smoke test
-.github/     GitHub Actions CI
-```
+- **Date** and **Time** sliders (with the current value displayed).
+- **North rotation** spin box.
+- **Azimuth / Elevation** and **Sunrise / Sunset** readouts.
+- **Location** box: source combo, editable coordinates, **Set Location**
+  icon, **Load map** checkbox.
+- **Sun Dome** box (visible only when the dome is on): diagram size,
+  Set Center, Analemmas / Hour labels / Date labels / Compass toggles.
+- The four toggle buttons: **Shadows on/off**, **Sun Arrow**,
+  **Sun Vector**, **Sun Dome**.
+- **Playback**: step per frame (combo), **Include Sun Dome in export**
+  checkbox, **Play** / **Stop** buttons.
+- **Export**: output format (PNG sequence / MP4 video), size W × H,
+  **Keep aspect ratio**, **Export Animation** button.
+- **Video Dependencies**: FFmpeg status (`Available` / `MISSING`) and a
+  **Configure / Download...** button that opens the FFmpeg manager.
 
 ---
 
 ## On-screen compass (overlay)
 
-When **Sun Arrow** is on, a small overlay appears in the top-right
-corner of the viewport. It is a **child QWidget** of the viewport, so it
-floats above the 3D content without interfering with camera, selection
-or zoom.
+When **Sun Arrow** is on, a small overlay appears in the top-right corner
+of the viewport. It is a **child QWidget** of the viewport, so it floats
+above the 3D content without interfering with camera, selection or zoom.
 
 ### Compass rose
 
@@ -125,13 +110,13 @@ Below the info text, **two thin sliders** let you scrub date and time
 without opening the dialog:
 
 - **Date** — horizontal slider spanning the whole year (day 1 → 365).
-  Moving it **repositions the red arc** (current day) over the solar
-  dome and re-renders the sun vector.
+  Moving it **repositions the red arc** (current day) over the solar dome
+  and re-renders the sun vector.
 - **Time** — horizontal slider spanning 00:00 → 23:59. Moving it slides
   the sun's ball along the red arc.
 
-Both sliders are **synchronised with the Set Sun dialog** and with the
-solar dome: moving any of them (dialog or overlay) updates the others.
+Both sliders are **synchronised with the Set Sun dialog, the side panel
+and the solar dome** — moving any of them updates the others.
 
 The whole overlay is **draggable** — click anywhere in the rose area and
 drag to reposition it. The sliders and the info panel follow.
@@ -153,13 +138,15 @@ The dialog collects everything related to sun and site in one window.
 
 - **Azimuth** and **Elevation** of the sun, in degrees, updated live
   with the date and time.
+- **Sunrise** and **Sunset** times (or `--:--` when the sun does not
+  rise/set, e.g. polar day/night).
 
 ### North rotation
 
-- **North rotation** spinbox (`0–360°`) — writes to **`scene.georef.north`**,
-  the same field the IngeTrazo **Terreno** panel uses. Changing it
-  rotates the dome, sun vector, compass **and** IngeTrazo's own model
-  shadows on the next frame.
+- **North rotation** spin box (`0–360°`) — writes to
+  **`scene.georef.north`**, the same field the IngeTrazo **Terreno**
+  panel uses. Changing it rotates the dome, sun vector, compass **and**
+  IngeTrazo's own model shadows on the next frame.
 
 ### Location box
 
@@ -167,7 +154,7 @@ The dialog collects everything related to sun and site in one window.
 |---------|----------------|-------|
 | **Source** combo | Terreno panel map source | Esri Imagery / Sentinel-2 cloudless / OpenStreetMap |
 | **Coords** field | `scene.georef.lat` + `.lon` | editable text (`lat, lon`) |
-| **Set Location** icon (🗺️) | Opens IngeTrazo's native map picker | — |
+| **Set Location** icon | Opens IngeTrazo's native map picker | — |
 | **Load map** checkbox | Whether the fetched tiles are kept | on/off |
 
 ### Sun Dome box
@@ -183,6 +170,17 @@ The dialog collects everything related to sun and site in one window.
 | **Hour labels** checkbox | Show/hide the hour numbers on the red arc | on/off |
 | **Date labels** checkbox | Show/hide the date labels at sunrise/sunset | on/off |
 | **Compass N** checkbox | Show/hide the two ground circles and the **N** arrow | on/off |
+
+### Animation controls
+
+| Control | Field affected | Range |
+|---------|----------------|-------|
+| **Step per frame** combo | `SunAnimator.speed` (minutes/tick) | 60, 30, 15, 10, 5, 1 min |
+| **Play** button | Starts the animation (advances time to sunset) | — |
+| **Stop** button | Stops the animation | — |
+
+> The animation is the **time slider moving by itself**. It is what the
+> **Export Sequence / Video** flow uses under the hood.
 
 ### Bottom buttons
 
@@ -201,8 +199,10 @@ Every change in the dialog is **persisted in the document**:
 - Toggle states (`igz_dome_active`, `igz_sun_vector_active`,
   `igz_overlay_visible`), the diagram scale (`igz_dome_diagram_scale`),
   the four display flags (`igz_dome_show_*`), the dome origin
-  (`igz_dome_center` as `[x, y, z]`) and the PNG export preference
-  (`igz_export_transparent`) are stored **as attributes on the scene
+  (`igz_dome_center` as `[x, y, z]`), the export preferences
+  (`igz_export_transparent`, `igz_export_keep_ratio`, `igz_export_size`,
+  `igz_export_include_dome`) and the animation step
+  (`igz_animation_step_minutes`) are stored **as attributes on the scene
   object** (with the `igz_` prefix).
 - The **North offset** is stored in **`scene.georef.north`** — the same
   field the IngeTrazo **Terreno** panel uses, so it is fully
@@ -211,17 +211,17 @@ Every change in the dialog is **persisted in the document**:
   dataclass the IngeTrazo shadows toolbar uses.
 
 Re-opening a saved `.igz` restores the exact same configuration,
-**including the transparent-background preference**.
+**including the export and animation preferences**.
 
 ---
 
 ## Solar dome (domus solar)
 
 The dome is drawn in **true 3D** over the viewport, projected with
-IngeTrazo's own `viewport.world_to_pixel(QVector3D)` API — the same
-call the host uses for its own overlays. This means the dome rotates
-correctly with the camera, is clipped at the widget edges, and follows
-every orbit / pan / zoom naturally.
+IngeTrazo's own `viewport.world_to_pixel(QVector3D)` API — the same call
+the host uses for its own overlays. This means the dome rotates correctly
+with the camera, is clipped at the widget edges, and follows every
+orbit / pan / zoom naturally.
 
 ### Elements
 
@@ -232,29 +232,29 @@ every orbit / pan / zoom naturally.
   - **Dashed** for months **7–12** (southern-hemisphere winter and
     spring).
   - **All in blue** (`40, 90, 220`).
-- **Current-day arc (red)** — a single extra arc drawn in **red**, at
-  the exact date currently selected in the Set Sun dialog. This arc
-  carries the **hour labels** (5…19) in dark grey next to each hour
-  mark. Moving the Date slider (dialog or overlay) **repositions this
-  arc** over the dome.
+- **Current-day arc (red)** — a single extra arc drawn in **red**, at the
+  exact date currently selected in the Set Sun dialog. This arc carries
+  the **hour labels** (5…19) in dark grey next to each hour mark. Moving
+  the Date slider (dialog, overlay or side panel) **repositions this arc**
+  over the dome.
 - **Hour marks** — small blue dots (radius 1.5 px) at every full hour
   (5h–19h) of each arc.
 - **Date labels** — month/day (e.g. `15/3`) at the **sunrise** and
   **sunset** points of each arc, in black.
 - **Analemmas** — 13 curves, one per full hour (6h–18h), each traced
-  through a full year at 5-day steps (73 samples + closing point),
-  drawn in medium grey. They produce the characteristic "figure-8"
-  shapes. They can be toggled off via the **Analemas** checkbox.
-- **Ground compass** — two concentric circles (R and 0.9 R) in
-  light green, with **radial ticks every 10°** and a light-purple arrow
+  through a full year at 5-day steps (73 samples + closing point), drawn
+  in medium grey. They produce the characteristic "figure-8" shapes.
+  They can be toggled off via the **Analemas** checkbox.
+- **Ground compass** — two concentric circles (R and 0.9 R) in light
+  green, with **radial ticks every 10°** and a light-purple arrow
   pointing to the current **North**, labelled with a purple **N**.
 - **Clickable cells** — quadrilaterals between consecutive monthly
-  meridians (day 15) and consecutive whole hours. Hovering highlights
-  the cell in yellow with its four `d/m: hh-0` labels; clicking sets
-  date and time simultaneously and switches on **Sun Vector**.
-- **Semester filter** — the **TAB** key toggles the set of months
-  whose cells are active: **Jan–Jun** (default) or **Jul–Dec**. The
-  currently active filter is shown as `Period: Jan-Jun (TAB)` /
+  meridians (day 15) and consecutive whole hours. Hovering highlights the
+  cell in yellow with its four `d/m: hh-0` labels; clicking sets date and
+  time simultaneously and switches on **Sun Vector**.
+- **Semester filter** — the **TAB** key toggles the set of months whose
+  cells are active: **Jan–Jun** (default) or **Jul–Dec**. The currently
+  active filter is shown as `Period: Jan-Jun (TAB)` /
   `Period: Jul-Dez (TAB)` in the bottom-left corner of the viewport.
 
 ### Solar math
@@ -271,6 +271,9 @@ and **date/time** using:
 - **Azimuth and elevation** from the standard spherical-trigonometry
   formulas. At the exact zenith the azimuth is undefined and the code
   fixes it to 0° to avoid numeric noise.
+- **Sunrise / sunset** from `cos(H) = −tan(lat)·tan(dec)`. When
+  |cos(H)| > 1 (polar day/night) the function returns `None` and the
+  dialog shows `--:--`.
 
 The result matches third-party references (e.g. Andrew Marsh's
 [Sun-Path 2D](https://andrewmarsh.com/apps/releases/sunpath2d.html))
@@ -278,18 +281,18 @@ within ±0.5° on typical dates and latitudes.
 
 ### North rotation
 
-`North rotation` (in the Set Sun dialog) writes to
+`North rotation` (in the Set Sun dialog or the side panel) writes to
 **`scene.georef.north`** — the same field the IngeTrazo **Terreno**
-panel exposes as *North*. As soon as the field changes,
-**IngeTrazo's own model shadows also rotate**, because the host re-reads
-that field on every frame.
+panel exposes as *North*. As soon as the field changes, **IngeTrazo's own
+model shadows also rotate**, because the host re-reads that field on
+every frame.
 
 Positive values rotate the North **clockwise** (matching the Terreno
-panel), which makes the whole scene — dome, sun vector, compass,
-shadows and **Az / El labels near the origin** — follow the new
-orientation. The numeric **Azimuth** readout in the info panel remains
-**geographic** (i.e., the sun's real angle from true North), independent
-of the screen rotation.
+panel), which makes the whole scene — dome, sun vector, compass, shadows
+and **Az / El labels near the origin** — follow the new orientation. The
+numeric **Azimuth** readout in the info panel remains **geographic**
+(i.e., the sun's real angle from true North), independent of the screen
+rotation.
 
 ### Diagram size
 
@@ -305,8 +308,11 @@ the dome has a 10 m diameter; at 500%, 50 m; at 2000%, 200 m.
 ### Dome origin (Set Center)
 
 The dome's origin can be placed anywhere in the model using **Set
-Center** (toolbar button or the **Set Center** button inside the
-dialog's *Sun Dome* box). The pick uses the host's **OSNAP engine**:
+Center** — available both as a **toolbar button** (between **Sun
+Dome** and **Play**) and as the **Set Center** button inside the
+dialog's *Sun Dome* box. Both paths call the same `start_picking_center`
+routine and behave identically. The pick uses the host's **OSNAP
+engine**:
 
 1. **`last_snap`** (if valid — kind ≠ `none`) — the exact point that
    IngeTrazo's OSNAP is currently showing under the cursor.
@@ -322,114 +328,180 @@ dialog's *Sun Dome* box). The pick uses the host's **OSNAP engine**:
 
 Because `SelectTool` has `uses_snap=False`, the plugin **temporarily
 patches** `uses_snap=True` on the active tool during the pick, then
-restores the original value when the pick finishes (or is cancelled
-with **ESC** / right-click). This is what makes the native OSNAP visual
+restores the original value when the pick finishes (or is cancelled with
+**ESC** / right-click). This is what makes the native OSNAP visual
 marker appear during the pick.
 
-The chosen point is stored as `igz_dome_center` in the scene
-attributes (array `[x, y, z]`) and reflected in the `Center:` label.
+The chosen point is stored as `igz_dome_center` in the scene attributes
+(array `[x, y, z]`) and reflected in the `Center:` label.
 
 ---
 
-## Export PNG
+## Sun animation
 
-The **Save PNG** button opens a small **mini-dialog with export options**,
-then a `QFileDialog`, then saves the current viewport to a **PNG**.
+The animation is the sun moving along its current-day arc, from sunrise
+to sunset, in configurable steps (60, 30, 15, 10, 5 or 1 minute per
+frame). It uses `SunAnimator` (in `core/sun_animator.py`), a small
+`QObject` that drives a `QTimer` and calls `set_time(sh, h, m)` on the
+scene's shadows dataclass on every tick.
 
-### Export options mini-dialog
+### Playback controls
 
-Clicking **Save PNG** in the toolbar first opens a compact dialog:
+Available in both the **Set Sun dialog** and the **side panel**, and also
+from the toolbar (**Play** / **Stop** buttons):
 
-- **Transparent background** checkbox (default: whatever the scene last
-  remembered, i.e. `igz_export_transparent`).
-- A hint: *"The image will include the viewport and the solar overlay."*
-- **Continue** / **Cancel** buttons.
+- **Step per frame** combo (`{n} min/step`) — 60, 30, 15, 10, 5 or
+  1 minute.
+- **Play** — starts the animation. If the current time is outside
+  `[sunrise, sunset]`, it jumps to sunrise first.
+- **Stop** — stops the animation.
 
-The preference chosen here is **persisted in the scene**
-(`igz_export_transparent`), so it survives saving / reopening the
-`.igz` file — and the next time you export, the checkbox starts in the
-state you left it.
+The animation stops automatically when it reaches sunset. The overlay,
+the sun vector and the solar dome update on every tick.
 
-> **Note:** the *Transparent background* option is **not** in the *Set
-> Sun* dialog — it lives in this mini-dialog, right in the export flow,
-> which is the natural place for it.
+### Include Sun Dome in export
+
+The **Include Sun Dome in export** checkbox (in the side panel's Playback
+box) decides whether the dome overlay is drawn on each captured frame:
+
+- **Checked** (default): the frames / video include the dome.
+- **Unchecked**: the frames / video include only the raw viewport (no
+  dome, no vector, no compass).
+
+The preference is persisted as `igz_export_include_dome` in the scene
+attributes.
+
+---
+
+## Export Sequence / Video
+
+The **Export Sequence / Video** button (toolbar) opens the
+**ExportDialog**, a single dialog that collects every option for the
+export. Clicking OK opens the native file/folder picker, then the
+animation runs and saves the output.
+
+### ExportDialog options
+
+| Control | Effect | Default |
+|---|---|---|
+| **Output format** | `PNG image sequence` or `MP4 video` | `MP4 video` |
+| **Size (W × H)** | Output frame size in pixels, 16–7680 each side | `1920 × 1080` |
+| **Keep aspect ratio** | When checked, the height is auto-computed from the viewport's aspect ratio; the W and H spin boxes stay linked | `Checked` |
+| **Include Sun Dome in export** | Whether the overlay is drawn on the frames | `Checked` |
+| **Step per frame** | Minutes per frame (same values as the animation) | `30 min` |
+| **Available / MISSING — required for MP4 video** | Shows whether FFmpeg is available. For PNG sequence, FFmpeg is not needed | — |
+
+The **Keep aspect ratio** behaviour: when checked and you edit **W**, the
+**H** field is recomputed to match the current viewport's aspect ratio
+(and vice-versa). When unchecked, you can set W and H independently, and
+the frames are **letterboxed** (black bars) instead of stretched, so the
+proportions are preserved.
 
 ### What is captured
 
-**White background mode** (transparent checkbox **unchecked**):
-
-- The **3D viewport** (model, terrain, shadows, camera).
-- The **on-screen overlay** — compass rose, sun vector, dome,
-  analemmas, Az/El labels, period indicator, snap preview ball (if
-  picking).
-- A **white** background.
-
-**Transparent background mode** (transparent checkbox **checked**):
-
-- **Only the on-screen overlay** — compass rose, sun vector, dome,
-  analemmas, Az/El labels, period indicator, snap preview ball (if
-  picking).
-- A **transparent** background — the 3D model and terrain are
-  **deliberately omitted**, so the overlay can be embedded into slides,
-  posters, or dark-themed documents without a white box.
+- **3D viewport** (model, terrain, shadows, camera) — unless the
+  *Include Sun Dome* is off, in which case only the raw viewport is
+  captured.
+- **On-screen overlay** — compass rose, sun vector, dome, analemmas,
+  Az / El labels, period indicator, snap preview ball (if picking) —
+  drawn on top of the viewport in the captured frame.
+- **Background** — white by default. (The old "transparent background"
+  option of the legacy *Save PNG* dialog was removed; the current export
+  always produces an opaque white background so that MP4 has a
+  consistent look.)
 
 The dialog is **never** captured — the image only contains the viewport
 (or just the overlay) and the solar graphics.
+
+### Output formats
+
+**PNG image sequence** — one file per frame, named `frame_0001.png`,
+`frame_0002.png`, … inside the chosen folder. The folder is created if
+it does not exist. Useful for post-processing in an external video
+editor or for hand-picking individual frames.
+
+**MP4 video** — one file per export, using FFmpeg (H.264 / `yuv420p`).
+The frames are written to a temporary folder and rendered in a single
+FFmpeg pass at the end, then the temporary folder is deleted. The
+resulting video is **silent** (no audio track).
+
+### FFmpeg dependency
+
+MP4 export requires **FFmpeg**. The plugin looks for it in this order:
+
+1. The path saved in `config.json` (see `core/ffmpeg.py`).
+2. The system `PATH` (`shutil.which("ffmpeg")`).
+3. The plugin's own `ffmpeg/` subfolder (inside the config dir).
+4. `%APPDATA%\ingetrazo\IngeTrazo\ffmpeg\` (Windows).
+5. Common install locations (`C:\ffmpeg\bin\ffmpeg.exe`, etc.).
+
+If FFmpeg is not found, the **Video Dependencies** box in the side panel
+shows `FFmpeg: MISSING` and the **Configure / Download...** button
+opens the **DependencyDialog**:
+
+- **Download FFmpeg** — tries the official gyan.dev and BtbN GitHub
+  builds, showing a progress bar and a log. Saves to the plugin's
+  `ffmpeg/` folder and updates `config.json`.
+- **Browse...** — lets you point to an existing `ffmpeg.exe`.
+- **Refresh status** — re-runs the search.
+- **Open folder** — opens the plugin's `ffmpeg/` folder in the OS file
+  manager.
+
+The download is ~90 MB and may take a while; the dialog stays
+responsive (the download runs in a `QThread`).
 
 ### How to export
 
 1. Set up the scene — camera angle, date, time, dome toggles, north
    rotation, etc.
-2. Click **Save PNG** in the toolbar.
-3. In the mini-dialog, **check** or **uncheck** *Transparent
-   background*, then click **Continue**.
-4. The `QFileDialog` opens with the suggested name
-   `sunpath_YYYYMMDD_HHmmss.png`, in **Pictures** (or the plugin folder
-   as fallback).
-5. Choose a location and click **Save**.
-6. The image is rendered offscreen (viewport + overlay, or just the
-   overlay) and saved.
-7. A **confirmation message box** appears with the exact saved path,
-   and the status bar shows the same message for 6 seconds.
-8. If the save fails (permission denied, file locked, etc.), a message
-   box with the reason appears — and, as a safety net, the plugin tries
-   the system temporary folder and tells you if the fallback succeeded.
+2. Click **Export Sequence / Video** in the toolbar.
+3. In the **ExportDialog**, choose:
+   - Output format (PNG sequence or MP4 video).
+   - Size (W × H) and whether to keep the aspect ratio.
+   - Include-dome, step per frame.
+4. Click **OK**. The native picker opens:
+   - For PNG sequence: choose a folder.
+   - For MP4 video: choose a file (`.mp4` is appended if missing).
+5. The animation runs and the frames are saved / the video is rendered.
+6. A **message box** shows the result:
+   - PNG: `Animation completed! {n} PNG frames saved in:\n{path}`.
+   - MP4: `Animation completed! {n} frames.\nVideo saved at:\n{path}`.
+   - Failure: `Animation completed, but the video was NOT generated.
+     \nFrames kept at:\n{path}` (frames are kept so you can retry).
+   - FFmpeg missing: `FFmpeg was not found. Frames kept at:\n{path}`.
 
 ### Behaviour details
 
 | Aspect | Behaviour |
 |--------|-----------|
-| **Size** | Exactly the viewport's current width × height in pixels (no scaling, no upsampling). |
-| **Format** | PNG (lossless, supports transparency). |
-| **White background** | Fills a `QPixmap` with `Qt.white`, renders the viewport, then draws the overlay. |
-| **Transparent background** | Creates a `QImage` filled with `Qt.transparent`, renders **only the overlay** into it (the 3D viewport is not painted). |
+| **Frame size** | Exactly the W × H chosen in the dialog (or the viewport size × aspect ratio when *Keep aspect ratio* is on). |
+| **Format** | PNG (lossless) for frames, MP4 (H.264, `yuv420p`, silent) for video. |
+| **Letterbox** | Applied only when *Keep aspect ratio* is **off** and the requested W:H differs from the viewport's. Black bars on top/bottom or left/right. |
+| **Stretch** | Never. Even with *Keep aspect ratio* off, the frame is letterboxed, not stretched. |
 | **Multi-monitor** | Irrelevant — the image is rendered into an offscreen `QPixmap` / `QImage`, not captured from the screen. |
 | **Minimized window** | Works — `QWidget.render(...)` draws regardless of window visibility. |
 | **Active pick mode** | The current snap preview ball is included. |
-| **Overwrite** | `QFileDialog` prompts for confirmation before overwriting an existing file. |
-| **File extension** | If the user types a name without extension, `.png` is appended automatically. |
-| **Path normalization** | `os.path.normpath()` is applied before saving, so `D:/foo/bar.png` becomes `D:\foo\bar.png` on Windows. |
-| **Fallback** | If the chosen path fails to save, the plugin tries `<temp>/igz_sunpath/<name>.png` and informs you via the confirmation box. |
-| **Logging** | When `DEBUG = True`, the console prints `capture: saved <path> (WxH) transparent=<bool>`. |
-| **Non-ASCII paths** | Fully supported (Qt uses UTF-16 internally). |
+| **Overwrite** | The native picker prompts before overwriting an existing file. |
+| **File extension** | If the user types a name without extension, `.mp4` (or `.png`) is appended automatically. |
+| **Fallback** | If MP4 fails (e.g. FFmpeg error), the temporary frames are **kept** and the error message tells you where. |
+| **Logging** | When `DEBUG = True`, the console prints the chosen path, size and step for each export. |
 | **Icons in the image** | The toolbar and dialog icons are **not** part of the image. |
 
 ### Tips for high-quality output
 
-- **Full HD screenshots** — resize the IngeTrazo window to at least
-  1920×1080 before clicking **Save PNG**. The image will match the
-  viewport pixel-for-pixel.
-- **Reports on white paper** — leave **Transparent background**
-  unchecked. The image will be the 3D model + overlay over white.
-- **Embedding in slides with dark theme** — check **Transparent
-  background**. Only the dome and labels will be in the image; the
-  model's 3D faces will not. If you need the 3D model with a
-  transparent background, that is not supported by the current viewport
-  (the host paints its own opaque background before the extension can
-  draw).
+- **Full HD** — set **Size (W × H)** to `1920 × 1080` (default). For 4K,
+  use `3840 × 2160`; for square, `1080 × 1080` (uncheck *Keep aspect
+  ratio* and set both fields manually).
+- **Reports on white paper** — the export is always on a white
+  background. If you need the overlay alone (no 3D model), uncheck
+  *Include Sun Dome in export* and export the raw viewport — the model
+  will be part of the frame (the current viewport is opaque).
+- **Small GIF / MP4** — lower the **Size (W × H)** (e.g. `960 × 540`)
+  and increase **Step per frame** (e.g. `60 min`) to reduce the frame
+  count and file size.
 - **Documenting the picked origin** — leave **Set Center** picking
   active (with the colored preview ball visible) when you click
-  **Save PNG**; the ball will be part of the image.
+  **Export**; the ball will be part of the frames.
 
 ---
 
@@ -441,15 +513,17 @@ both dark and light interfaces:
 - `sunpath_<name>.svg` — the default variant (used on dark themes).
 - `sunpath_<name>_light.svg` — the light-theme variant.
 
-At start-up, `_load_themed_icon()` inspects the `QPalette.Window` colour
+At start-up, `load_themed_icon()` inspects the `QPalette.Window` colour
 of the main window. On a **light** UI it loads the `_light.svg` file when
 it exists and otherwise falls back to the default icon; on a dark UI it
 always uses the default one. No configuration is required — the icons
 follow the application theme automatically.
 
 The **Set Location** button uses the emoji `🗺️` as fallback, so it works
-even without any icon file. The **Save PNG** button uses
-`sunpath_screenshot.svg` (or its `_light` variant).
+even without any icon file. The **Play** and **Stop** buttons fall back
+to `▶️` and `⏹️` when their SVGs are not present. The **Sun Panel**
+button falls back to `sunpath_center.svg`. The **Export** button uses
+`sunpath_save.svg`.
 
 ---
 
@@ -471,28 +545,12 @@ language:
 The catalog is loaded at runtime based on IngeTrazo's current language
 (`core.i18n.current_language()`); missing keys fall back to `en.json`.
 A 1-second timer watches for language changes and re-labels the toolbar,
-the Set Sun dialog and the Az/El labels of the overlay instantly.
+the Set Sun dialog, the side panel and the Az / El labels of the overlay
+instantly.
 
 To add a new language, drop a `<code>.json` file in `i18n/` with the same
-keys as `en.json`.
-
-The PNG export uses the following keys (all present in `en.json` and in
-all 6 other catalogs):
-
-- `"Save PNG"` — mini-dialog title.
-- `"Export options"` — section header.
-- `"Transparent background"` — checkbox label.
-- `"If checked, the exported PNG will have a transparent background."` —
-  checkbox tooltip.
-- `"The image will include the viewport and the solar overlay."` —
-  hint line.
-- `"Continue"` — accept button.
-- `"Cancel"` — reject button.
-- `"Could not save the image to:\n{path}\n\nDetails:\n{details}"` —
-  failure message with the diagnostic details.
-- `"Image saved: {path}"` — success message.
-- `"Image saved (fallback): {path}"` — success message when the
-  fallback path (the system temporary folder) was used.
+keys as `en.json`. All catalogs contain the same keys (PNG export,
+MP4 export, FFmpeg manager, animation, side panel, etc.).
 
 ---
 
@@ -504,35 +562,38 @@ IngeTrazo states in
 > The plugin API is **not stable yet** — expect breaking changes during
 > the 0.x series.
 
-The plugin **works** in IngeTrazo 0.5.8 but uses a few points
-that are **not part of the public extension API**. Consolidated list:
+The plugin **works** in IngeTrazo 0.5.8 but uses a few points that are
+**not part of the public extension API**. Consolidated list:
 
 | Symbol | Where | Why |
 |---|---|---|
-| `viewport.scene.shadows` | `_get_shadows` | Internal chain; the scene is not on `app.scene` |
+| `viewport.scene.shadows` | `get_shadows` | Internal chain; the scene is not on `app.scene` |
 | `ShadowSettings.{enabled, month, day, hour, minute, darkness}` | various | Internal dataclass (`core.sun`) |
-| `scene.georef.{lat, lon, north}` | `_read_georef_from_scene` / `_read_north_rotation` | Internal dataclass (`SceneDatum`) |
+| `scene.georef.{lat, lon, north}` | `get_georef` / `read_north_rotation` | Internal dataclass (`SceneDatum`) |
 | `viewport.world_to_pixel(QVector3D)` | every painter draw | Public API for extensions, but not in `plugins.md` |
-| `viewport.{_snap_at, last_snap, pick_vertex, pick_edge, pick_face, _world_under_cursor, _world_from_pixel}` | `_pick_with_osnap` | Internal snap engine; used by **Set Center** |
-| `viewport.active_tool.uses_snap` | `_patch_uses_snap_for_picking` | Internal flag; temporarily patched to `True` during **Set Center** |
+| `viewport.{_snap_at, last_snap, pick_vertex, pick_edge, pick_face, _world_under_cursor, _world_from_pixel}` | `pick_with_osnap` | Internal snap engine; used by **Set Center** |
+| `viewport.active_tool.uses_snap` | `patch_uses_snap_for_picking` | Internal flag; temporarily patched to `True` during **Set Center** |
 | `BaseMapPanel` internals (`_source`, `_find`, `_lat`, `_lon`, `_last_sid`) | `_open_native_georef_dialog` | Reached through `findChildren`; the **Terreno** panel is not a public API |
 | `scene.{tile_layer, terrain, photo_mesh}` snapshot | `_open_native_georef_dialog` | Internal scene attributes, restored when *Load map* is off |
-| `QToolBar` + `MainWindow.addToolBar(...)` | `_create_sunpath_toolbar` | Horizontal toolbars have no official API in the 0.x series |
-| Widget overlay (`_SunArrowOverlay` as a child of `viewport`) | `_ensure_overlay` | Not covered by `plugins.md`; relies on the viewport being a plain `QWidget` |
-| `QWidget.render(QPainter, QPoint)` / `QWidget.render(QPaintDevice)` | `_capture_viewport_to_png` | Qt public API, but relies on the viewport being a plain `QWidget` (which it currently is). **PySide6 ≥ 6.4 requires the `targetOffset`** `QPoint(0, 0)` on the `render(QPainter)` overload. |
+| `QToolBar` + `MainWindow.addToolBar(...)` | `create_toolbar` | Horizontal toolbars have no official API in the 0.x series |
+| Widget overlay (`SunArrowOverlay` as a child of `viewport`) | `ensure_overlay` | Not covered by `plugins.md`; relies on the viewport being a plain `QWidget` |
+| `QWidget.render(QPainter, QPoint)` / `QWidget.render(QPaintDevice)` | `SunAnimator._capture_frame` | Qt public API, but relies on the viewport being a plain `QWidget`. **PySide6 ≥ 6.4 requires the `targetOffset`** `QPoint(0, 0)` on the `render(QPainter)` overload. |
+| `QStandardPaths` for FFmpeg config / frames temp folder | `ffmpeg.py` / `SunAnimator` | Public Qt API; the *paths* are internal but harmless |
 
 ### What **is** compliant with `plugins.md`
 
 - `.py` file in the correct plugins folder.
 - Defines module-level `setup(app)`.
-- Fault-tolerant: any exception inside the callbacks is caught and
-  logged — the app keeps running.
+- Fault-tolerant: any exception inside the callbacks is caught and logged
+  — the app keeps running.
 - Does not modify the document without going through the scene's own
   data structures.
 - Does not assume `sys.path` and does not import its own package.
-- Respects threading (everything on the main thread).
+- Respects threading (everything on the main thread; the FFmpeg download
+  uses a `QThread`).
 - Uses **public Qt APIs** (`QFileDialog`, `QPixmap`, `QImage`,
-  `QStandardPaths`, `QDateTime`) for the PNG export — nothing internal.
+  `QStandardPaths`, `QDateTime`, `QThread`) for the PNG / MP4 export —
+  nothing internal.
 
 ### What is **not** covered by `plugins.md`
 
@@ -541,12 +602,17 @@ that are **not part of the public extension API**. Consolidated list:
   `app.add_menu_action(...)` (menu entry), and `app.add_context_menu(...)`,
   but not `add_toolbar(...)`. This extension uses `QToolBar` **directly
   via PySide** — it works, but it is the "informal" path.
+- The side panel is added via `app.add_panel(...)`, which is documented,
+  but the panel's internals (dynamic-width polish, `SunAnimator`) are
+  the plugin's own.
 - There is no subclass of `tools.base.Tool`. This means the plugin
   **does not appear in the Extensions menu**, has no shortcut, and is not
   in the F3 search. If that is desired, see "Future improvements" below.
 - No persistence via `app.document_data`. The plugin's own state is
   stored directly on the scene object (see the **Persistence** section),
   which survives the current session but is not part of a formal API.
+- The `SunAnimator` uses `scene.shadows` directly to advance time, which
+  is the same path as the host's shadow toolbar.
 
 ### If the 0.x API breaks
 
@@ -556,14 +622,16 @@ that are **not part of the public extension API**. Consolidated list:
   migrate.
 - **Toolbar:** `QToolBar` → if `app.add_toolbar(...)` appears, migrate.
 - **Overlay:** the on-screen compass uses a `QWidget` child of the
-  viewport; if IngeTrazo ever changes the viewport class away from a
-  plain `QWidget`, the overlay would have to be re-parented or replaced
-  by a native overlay hook. **The same applies to the PNG export**,
-  which calls `viewport.render(pixmap)` — a method of `QWidget`.
-- **Set Center / OSNAP:** `_pick_with_osnap` relies on
+  viewport; if IngeTrazo ever changes the viewport class away from a plain
+  `QWidget`, the overlay would have to be re-parented or replaced by a
+  native overlay hook. **The same applies to the PNG / MP4 export**, which
+  calls `viewport.render(pixmap)` — a method of `QWidget`.
+- **Set Center / OSNAP:** `pick_with_osnap` relies on
   `viewport.{_snap_at, last_snap, pick_vertex, pick_edge, pick_face}` and
-  on the `uses_snap` flag. If any of these disappear, the pick falls
-  back to `_snap_to_scene_vertex` and then to the work plane.
+  on the `uses_snap` flag. If any of these disappear, the pick falls back
+  to `_snap_to_scene_vertex` and then to the work plane.
+- **Animation:** `SunAnimator` relies on `scene.shadows` being mutable
+  through the same fields. If those change, the animation stops updating.
 
 ---
 
@@ -580,11 +648,23 @@ that are **not part of the public extension API**. Consolidated list:
    - Or use the **Extensions ▸ Open plugins folder** menu.
 3. Move the unpacked **`igz_sunpath`** folder into that plugins folder, so
    the files end up at `<plugins>/igz_sunpath/` (it holds `__init__.py`,
-   the main module, the docs, the `icons/` and `i18n/` folders).
+   `core/` with all modules, the docs, the `icons/` and `i18n/` folders).
 4. Restart IngeTrazo.
 
 The **Sun Path** toolbar appears in the top area, next to the other
-toolbars.
+toolbars. The **Sun Panel** is available as a side dock (toggle from the
+toolbar).
+
+### FFmpeg (optional, needed only for MP4 video)
+
+If you only need **PNG image sequence** export, FFmpeg is **not**
+required. If you want **MP4 video**, install FFmpeg by:
+
+1. Clicking **Configure / Download...** in the side panel's *Video
+   Dependencies* box, then **Download FFmpeg** (the plugin handles the
+   download and extraction).
+2. Or clicking **Browse...** and pointing to an existing `ffmpeg.exe`.
+3. Or adding `ffmpeg` to your system `PATH` (the plugin will find it).
 
 ### From the IngeTrazo extension catalog
 
@@ -594,6 +674,71 @@ Once the entry is listed in the community catalog at
 that catalog; it has no file picker). The unmodified catalog entry is
 [`packaging/igz_sunpath.toml`](packaging/igz_sunpath.toml), and
 [`PUBLISHING.md`](PUBLISHING.md) has the release and submission steps.
+
+---
+
+## Files
+
+```
+<plugins>/
+└── igz_sunpath/
+    ├── __init__.py              # package entry point (setup(app))
+    ├── core/
+    │   ├── __init__.py
+    │   ├── state.py             # global state (overlay, dome, export)
+    │   ├── toolbar.py           # "Sun Path" toolbar + menu
+    │   ├── panel.py             # SetSunDialog + SunPathPanel + calendar
+    │   ├── overlay.py           # overlay widget + pick filter
+    │   ├── overlay_paint.py     # overlay painting (dome, analemmas, …)
+    │   ├── dome_geometry.py     # dome / analemmas / cells
+    │   ├── solar_math.py        # declination, equation of time, sunrise/sunset
+    │   ├── shadows.py           # scene.shadows accessor + setters
+    │   ├── georef.py            # scene.georef / north rotation
+    │   ├── scene_state.py       # repaint + save_state_to_scene
+    │   ├── sun_animator.py      # animation + frame capture
+    │   ├── export_dialog.py     # ExportDialog (PNG / MP4 options)
+    │   ├── ffmpeg.py            # FFmpeg finder + downloader + DependencyDialog
+    │   ├── capture.py           # _discover_main_window (legacy utility)
+    │   └── i18n_loader.py       # JSON translation loader
+    ├── README.md                # this file
+    ├── README_ptBR.md           # Portuguese version
+    ├── CHANGELOG.md             # release history
+    ├── PUBLISHING.md            # release + catalog submission guide
+    ├── LICENSE                  # full GPL-3.0 text
+    ├── THIRD-PARTY.md           # third-party notices
+    ├── icons/
+    │   ├── sunpath_arrow.svg    / sunpath_arrow_light.svg
+    │   ├── sunpath_calendar.svg / sunpath_calendar_light.svg
+    │   ├── sunpath_center.svg   / sunpath_center_light.svg
+    │   ├── sunpath_dome.svg     / sunpath_dome_light.svg
+    │   ├── sunpath_map.svg      / sunpath_map_light.svg
+    │   ├── sunpath_panel.svg    / sunpath_panel_light.svg
+    │   ├── sunpath_panel_tab.svg / sunpath_panel_light_tab.svg
+    │   ├── sunpath_play.svg     / sunpath_play_light.svg
+    │   ├── sunpath_save.svg     / sunpath_save_light.svg
+    │   ├── sunpath_set_sun.svg  / sunpath_set_sun_light.svg
+    │   ├── sunpath_shadows.svg  / sunpath_shadows_light.svg
+    │   ├── sunpath_stop.svg     / sunpath_stop_light.svg
+    │   └── sunpath_vector.svg   / sunpath_vector_light.svg
+    ├── i18n/
+    │   ├── en.json
+    │   ├── pt-BR.json
+    │   ├── de.json
+    │   ├── es.json
+    │   ├── fr.json
+    │   ├── it.json
+    │   └── zh-CN.json
+    └── screenshots/
+        └── igz_sunpath.png
+```
+
+The repository also carries the release tooling (not needed at runtime):
+
+```
+packaging/   build_extension.py / .ps1, igz_sunpath.toml
+tests/       static tests + optional PySide6 GUI smoke test
+.github/     GitHub Actions CI
+```
 
 ---
 
@@ -607,25 +752,28 @@ python -m unittest discover -s tests -v
 # Optional GUI smoke test, if PySide6 can be imported (offscreen).
 python -m unittest tests.test_gui_smoke -v
 
-# Build dist/igz_sunpath.zip and refresh packaging/igz_sunpath.toml.
+# Build dist/igz_sunpath.zip (+ .sha256) and refresh the catalog entry.
 python packaging/build_extension.py --write-catalog
 python packaging/build_extension.py --check
 ```
 
-The plugin has a single module, `igz_sunpath.py`, split into numbered
-sections; `__init__.py` only exposes `setup(app)`. `DEBUG = False` in
-releases — set it to `True` locally to log to stderr.
+The plugin is split into modules under `core/`, each covering one concern
+(state, toolbar, panel, overlay, painting, dome geometry, solar math,
+animation, export, FFmpeg). `__init__.py` only exposes `setup(app)`.
+`DEBUG = False` in releases — set it to `True` locally to log to stderr.
 
 ---
 
 ## Usage
 
 ### Shadows on/off
+
 - Click **Shadows on/off** to toggle IngeTrazo's native shadows. The
-  toolbar button and the dialog button stay synchronised — both read
-  `scene.shadows.enabled`.
+  toolbar button, the dialog button and the side panel button stay
+  synchronised — all read `scene.shadows.enabled`.
 
 ### Sun Arrow + on-screen compass
+
 - Click **Sun Arrow** to show the on-screen compass — a small circle in
   the top-right corner of the viewport with N/E/S/W labels and a yellow
   dot showing where the sun is right now.
@@ -636,6 +784,7 @@ releases — set it to `True` locally to log to stderr.
 - Drag the compass (anywhere in the rose area) to reposition it.
 
 ### Sun Vector
+
 - Click **Sun Vector** to show the 3D sun ray: an orange line from the
   dome's origin to the sun's current position, with a ball at the tip
   and a small dot at the origin. A short grey dashed line drops from the
@@ -649,6 +798,7 @@ releases — set it to `True` locally to log to stderr.
   so the vector is always aligned with the red arc of the dome.
 
 ### Solar Dome
+
 - Click **Sun Dome** to show the whole dome: sun-path arcs, analemmas,
   hour marks, sunrise/sunset labels and the ground compass.
 - A **red arc** highlights the **current day** and carries the hour
@@ -660,83 +810,105 @@ releases — set it to `True` locally to log to stderr.
   so you immediately see the chosen sun position.
 - Press **TAB** to switch the semester filter (Jan–Jun ↔ Jul–Dec). The
   active filter is shown as `Period: Jan-Jun (TAB)` / `Period: Jul-Dez (TAB)`.
-- Open **Set Sun Tool** to control the dome: scale, hour labels, date
-  labels, compass, analemma visibility, north rotation and set center.
-- Change the **date** or **time** — either in the dialog or in the
-  on-screen compass sliders — and the whole dome updates instantly,
-  including the position of the red arc.
-- Change the **latitude/longitude** in the Location box (or via the
-  **Set Location** toolbar button) and the dome reorients to the new
-  site immediately.
+- Open **Set Sun** or the **side panel** to control the dome: scale, hour
+  labels, date labels, compass, analemma visibility, north rotation and
+  set center.
+  
+### Set Center
+
+- Click **Set Center** (toolbar button, between **Sun Dome** and **Play**) to enter picking mode.
+- Move the mouse over the model: the OSNAP engine of the host lights up (vertices, edges, faces) and the overlay preview ball shows the current snap type — **yellow** (vertex), **cyan** (edge), **green** (face), **grey** (plane).
+- Click to confirm. The dome is re-centered on that point.
+- Press **ESC** or **right-click** to cancel without changing the origin.
+- If the **Set Sun** dialog is open, it is hidden during the pick and restored automatically when the pick finishes.
+- The chosen point is stored as `igz_dome_center` and survives a save / reload of the `.igz` file.
+
+### Sun animation
+
+- In the **Set Sun dialog** or the **side panel**, choose a **Step per
+  frame** (60, 30, 15, 10, 5 or 1 min).
+- Click **Play** (in the dialog, the side panel or the toolbar) to start
+  the animation. The sun moves along its current-day arc, and the
+  overlay, the vector and the dome update on every tick.
+- Click **Stop** to stop. The animation stops automatically at sunset.
+
+### Export Sequence / Video
+
+1. Set up the scene — camera angle, date, time, dome toggles, north
+   rotation, animation step, include-dome preference.
+2. Click **Export Sequence / Video** in the toolbar.
+3. In the **ExportDialog**:
+   - Choose **PNG image sequence** or **MP4 video**.
+   - Set **Size (W × H)** and **Keep aspect ratio**.
+   - Set **Include Sun Dome in export** and **Step per frame**.
+4. Click **OK**. The native picker opens:
+   - For PNG sequence: choose a folder.
+   - For MP4 video: choose a file (`.mp4` is appended if missing).
+5. The animation runs and the frames / video are written.
+6. A **message box** shows the result and the path.
+
+If MP4 export fails (e.g. FFmpeg not installed), the temporary frames
+are kept and the error message tells you where. You can install FFmpeg
+via the **Video Dependencies** box in the side panel and re-export.
 
 ### Set Center
-- Click **Set Center** (toolbar or the **Set Center** button inside the
+
+- Click **Set Center** (dialog or the **Set Center** button inside the
   *Sun Dome* box) to enter picking mode.
 - Move the mouse over the model: the OSNAP engine of the host lights up
   (vertices, edges, faces) and the overlay preview ball shows the current
   snap type — **yellow** (vertex), **cyan** (edge), **green** (face),
   **grey** (plane).
 - Click to confirm. The dome is re-centered on that point.
-- Press **ESC** or **right-click** to cancel without changing the
-  origin.
+- Press **ESC** or **right-click** to cancel without changing the origin.
 - The chosen point is stored as `igz_dome_center` and survives a save /
   reload of the `.igz` file.
 
 ### Set Location
-- Click **Set Location** (🗺️) to open IngeTrazo's native **Terreno**
-  map picker. Choose a place, and the latitude/longitude are applied to
-  the scene. The dome and the sun vector recalculate automatically.
-- The 🗺️ icon is right next to the **Coords** field in the Set Sun
-  dialog. The same action is also available from the toolbar (the last
-  button before **Save PNG**).
+
+- Click **Set Location** to open IngeTrazo's native **Terreno** map
+  picker. Choose a place, and the latitude/longitude are applied to the
+  scene. The dome and the sun vector recalculate automatically.
+- The Set Location icon is right next to the **Coords** field in the
+  dialog and the side panel.
 
 ### Calendar
-- Click **Calendar** to open a small calendar dialog with a `HH:mm`
-  time editor. Both values are applied to `scene.shadows` when you click
+
+- Click **Calendar** to open a small calendar dialog with a `HH:mm` time
+  editor. Both values are applied to `scene.shadows` when you click
   **OK**, and the on-screen compass sliders stay synchronised.
 
-### Save PNG
-1. Set up the scene — camera angle, date, time, dome toggles, north
-   rotation, etc.
-2. Click **Save PNG** in the toolbar.
-3. In the mini-dialog, check or uncheck **Transparent background**,
-   then click **Continue**.
-4. The file dialog opens with the suggested name
-   `sunpath_YYYYMMDD_HHmmss.png`, in **Pictures** (or the plugin folder
-   as fallback).
-5. Choose a location and click **Save**.
-6. The image is rendered offscreen and saved. A **message box** appears
-   with the exact saved path; the status bar shows the same message
-   for 6 seconds.
-7. If the save fails (e.g., permission denied), the plugin tries a
-   fallback in the system temporary folder and reports the outcome.
-8. If the current **Set Center** pick mode is active, the colored preview
-   ball is included in the image — useful for documenting the picked
-   point.
+### Sun Panel (side dock)
+
+- Click **Sun Panel** in the toolbar to show/hide the side dock.
+- The dock contains a compact version of the Set Sun controls, the
+  animation controls, the export options and the FFmpeg status.
+- Resize the dock — the sliders, combos and spin boxes **stretch and
+  shrink with it**.
 
 ---
 
 ## Future improvements (optional)
 
 Everything `plugins.md` recommends that is **not** implemented yet.
-None of these improvements are required — the plugin works fine
-without them.
+None of these improvements are required — the plugin works fine without
+them.
 
 1. **`Tool` subclass**: "Sun Path…" in the Extensions menu, with a
    shortcut. Lets the user reopen the toolbar if it gets closed.
 
-2. **High-resolution PNG export**: add a "Resolution" dropdown to the
-   export options (1×, 2×, 4×). The dome is vector, so a 2× or 4× render
-   keeps the labels and arcs crisp on print. Implementation would
-   render to a `QPixmap` of `w*scale × h*scale` after `painter.scale()`.
+2. **High-resolution PNG / MP4 export**: a "Resolution" dropdown in the
+   ExportDialog (1×, 2×, 4×). The dome is vector, so a 2× or 4× render
+   keeps the labels and arcs crisp on print. The MP4 would also benefit
+   from a higher render resolution.
 
-3. **Copy image to clipboard**: a second toolbar action "Copy PNG" that
-   pushes the rendered `QPixmap` to `QApplication.clipboard()`, so the
-   user can paste directly into chat / e-mail without saving a file.
+3. **Copy image to clipboard**: a "Copy PNG" toolbar action that pushes
+   the rendered `QPixmap` to `QApplication.clipboard()`, so the user can
+   paste directly into chat / e-mail without saving a file.
 
-4. **Export as SVG**: render the overlay into a `QSvgGenerator`
-   instead of a `QPixmap`, giving a fully vector output (the viewport
-   3D content would still be raster).
+4. **Export as SVG**: render the overlay into a `QSvgGenerator` instead
+   of a `QPixmap`, giving a fully vector output (the viewport 3D content
+   would still be raster).
 
 5. **Additional projections**: offer a 2D **stereographic** sun-path
    diagram (like Andrew Marsh's tool) as an alternative to the 3D dome,
@@ -755,6 +927,13 @@ without them.
 9. **Toolbar reattach**: when the host re-creates the toolbars, the Sun
    Path toolbar should reattach automatically instead of relying on a
    restart.
+
+10. **Undo / redo for the dome center**: the Set Center pick currently
+    writes to `igz_dome_center` without pushing to the host's undo
+    stack. Integration with `app.undo_stack` would be nice.
+
+11. **Frame range selector**: choose a sub-range of the day (e.g. only
+    the morning) for export, instead of always running to sunset.
 
 ---
 
@@ -775,3 +954,4 @@ This program is distributed in the hope that it will be useful, but
 **without any warranty**; without even the implied warranty of
 **merchantability** or **fitness for a particular purpose**. See the
 GNU General Public License for more details.
+```

@@ -7,9 +7,10 @@ The archive holds exactly one Python package folder::
 
     igz_sunpath/
         __init__.py
-        igz_sunpath.py
+        core/            all runtime modules
         icons/  i18n/  screenshots/
-        README.md  README_ptBR.md  CHANGELOG.md  LICENSE  THIRD-PARTY.md
+        README.md  README_ptBR.md  CHANGELOG.md  PUBLISHING.md
+        LICENSE  THIRD-PARTY.md
 
 That is the layout the IngeTrazo plugin loader and the community catalog
 both expect (a ``.zip`` with one folder containing ``__init__.py``).
@@ -17,6 +18,7 @@ both expect (a ``.zip`` with one folder containing ``__init__.py``).
 The build is deterministic: members are sorted, timestamps are fixed and
 permissions are normalised, so building the same sources twice yields the
 same SHA-256.  That lets the catalog entry commit a stable fingerprint.
+A sidecar ``igz_sunpath.zip.sha256`` is written next to the archive.
 
 Usage (any platform)::
 
@@ -39,23 +41,28 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKAGE = "igz_sunpath"
+PACKAGE_DIR = ROOT / PACKAGE
 DIST = ROOT / "dist"
 ARCHIVE_NAME = f"{PACKAGE}.zip"
 
 # The IngeTrazo version this release was tested with.
 INGETRAZO_VERSION = "0.5.8"
 
-# Files and folders that go inside the installable package folder.
-PACKAGE_FILES = (
-    "__init__.py",
-    "igz_sunpath.py",
+# Documentation copied from the repository root into the package folder.
+DOC_FILES = (
     "README.md",
     "README_ptBR.md",
     "CHANGELOG.md",
+    "PUBLISHING.md",
     "LICENSE",
     "THIRD-PARTY.md",
 )
-PACKAGE_DIRS = ("icons", "i18n", "screenshots")
+
+# Folders shipped inside the package folder (relative to igz_sunpath/).
+PACKAGE_DIRS = ("core", "icons", "i18n")
+
+# Folders copied from the repository root into the package folder.
+EXTRA_DIRS = ("screenshots",)
 
 # Fixed timestamp keeps the archive byte-for-byte reproducible.
 FIXED_DATE = (2026, 1, 1, 0, 0, 0)
@@ -120,9 +127,9 @@ CATALOG = {
 
 
 def read_version() -> str:
-    """Read ``__version__`` from the main module without importing it."""
-    source = (ROOT / f"{PACKAGE}.py").read_text(encoding="utf-8")
-    tree = ast.parse(source, filename=f"{PACKAGE}.py")
+    """Read ``__version__`` from the package entry point without importing it."""
+    source = (PACKAGE_DIR / "__init__.py").read_text(encoding="utf-8")
+    tree = ast.parse(source, filename=f"{PACKAGE}/__init__.py")
     for node in tree.body:
         if not isinstance(node, ast.Assign) or len(node.targets) != 1:
             continue
@@ -131,30 +138,56 @@ def read_version() -> str:
                 and isinstance(node.value, ast.Constant)
                 and isinstance(node.value.value, str)):
             return node.value.value
-    raise SystemExit(f"__version__ not found in {PACKAGE}.py")
+    raise SystemExit(f"__version__ not found in {PACKAGE}/__init__.py")
+
+
+def _collect(folder: Path, prefix: str) -> list[tuple[str, Path]]:
+    """Collect files under ``folder`` as ``(arcname, source)`` pairs."""
+    if not folder.is_dir():
+        raise SystemExit(f"missing package folder: {folder.relative_to(ROOT)}/")
+    found: list[tuple[str, Path]] = []
+    for src in sorted(folder.rglob("*")):
+        if not src.is_file():
+            continue
+        if "__pycache__" in src.parts or src.suffix in (".pyc", ".pyo"):
+            continue
+        found.append((f"{prefix}/{src.relative_to(folder).as_posix()}", src))
+    return found
 
 
 def package_members() -> list[tuple[str, Path]]:
     """Return ``(archive name, source path)`` pairs, sorted by archive name."""
-    members: list[tuple[str, Path]] = []
-    for name in PACKAGE_FILES:
+    entry = PACKAGE_DIR / "__init__.py"
+    if not entry.is_file():
+        raise SystemExit(f"missing package file: {PACKAGE}/__init__.py")
+    members: list[tuple[str, Path]] = [(f"{PACKAGE}/__init__.py", entry)]
+
+    for name in DOC_FILES:
         src = ROOT / name
         if not src.is_file():
-            raise SystemExit(f"missing package file: {name}")
+            raise SystemExit(f"missing documentation file: {name}")
         members.append((f"{PACKAGE}/{name}", src))
+
     for folder in PACKAGE_DIRS:
-        base = ROOT / folder
-        if not base.is_dir():
-            raise SystemExit(f"missing package folder: {folder}/")
-        for src in sorted(base.rglob("*")):
-            if not src.is_file():
-                continue
-            if "__pycache__" in src.parts or src.suffix in (".pyc", ".pyo"):
-                continue
-            arcname = f"{PACKAGE}/{src.relative_to(ROOT).as_posix()}"
-            members.append((arcname, src))
+        members.extend(_collect(PACKAGE_DIR / folder, f"{PACKAGE}/{folder}"))
+
+    for folder in EXTRA_DIRS:
+        members.extend(_collect(ROOT / folder, f"{PACKAGE}/{folder}"))
+
     members.sort(key=lambda item: item[0])
     return members
+
+
+def sha256_file(output: Path) -> Path:
+    """Sidecar with the fingerprint in ``sha256sum`` format."""
+    return output.with_name(output.name + ".sha256")
+
+
+def write_sha256_file(output: Path, sha: str) -> Path:
+    sidecar = sha256_file(output)
+    sidecar.write_text(f"{sha}  {output.name}\n", encoding="ascii",
+                       newline="\n")
+    return sidecar
 
 
 def build(output: Path | None = None) -> tuple[Path, str, int]:
@@ -174,6 +207,7 @@ def build(output: Path | None = None) -> tuple[Path, str, int]:
 
     data = output.read_bytes()
     sha = hashlib.sha256(data).hexdigest()
+    write_sha256_file(output, sha)
     CATALOG["version"] = version
     CATALOG["sha256"] = sha
     CATALOG["download"] = (
@@ -244,6 +278,7 @@ def main(argv=None) -> int:
         try:
             _, sha, _ = build(tmp)
         finally:
+            sha256_file(tmp).unlink(missing_ok=True)
             tmp.unlink(missing_ok=True)
             tmpdir.rmdir()
         text = CATALOG_FILE.read_text(encoding="utf-8")
@@ -256,8 +291,10 @@ def main(argv=None) -> int:
 
     path, sha, size = build(args.output)
     shown = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+    sidecar = sha256_file(path)
     print(f"Built {shown} ({size / 1024:.1f} KB)")
     print(f"sha256 = {sha}")
+    print(f"Wrote {sidecar.relative_to(ROOT) if sidecar.is_relative_to(ROOT) else sidecar}")
     if args.write_catalog:
         catalog = write_catalog(sha)
         print(f"Wrote {catalog.relative_to(ROOT)}")

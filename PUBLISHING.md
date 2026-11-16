@@ -54,7 +54,8 @@ python packaging/build_extension.py --write-catalog
 ```
 
 O build é **determinístico**: os mesmos arquivos geram sempre o mesmo
-SHA-256. Confira antes de publicar:
+SHA-256. Ele também grava `dist/igz_sunpath.zip.sha256` (formato
+`sha256sum`). Confira antes de publicar:
 
 ```powershell
 python packaging/build_extension.py --check
@@ -175,7 +176,8 @@ python packaging/build_extension.py --check
 ```
 
 The build is **deterministic**: the same files always produce the same
-SHA-256. Then tag and publish the release:
+SHA-256, and it also writes `dist/igz_sunpath.zip.sha256` (in
+`sha256sum` format). Then tag and publish the release:
 
 ```powershell
 git add packaging/igz_sunpath.toml
@@ -215,7 +217,7 @@ the ZIP's SHA-256.
    It shows as **Community** until someone reads the file, after which it
    can be marked **Reviewed** in `reviewed.toml`.
 
-**New version:** bump `__version__` in `igz_sunpath.py`, run the build with
+**New version:** bump `__version__` in `igz_sunpath/__init__.py`, run the build with
 `-WriteCatalog`, publish a new release (`v1.0.1`, …) and open another pull
 request changing `version`, `download` and `sha256`. When it comes from the
 account in `author_url` (`em-rezende`) and only touches its own entry, it
@@ -223,7 +225,7 @@ is published automatically as “Community”.
 
 ### Release checklist
 
-- [ ] `__version__` in `igz_sunpath.py` was bumped.
+- [ ] `__version__` in `igz_sunpath/__init__.py` was bumped.
 - [ ] `CHANGELOG.md` has a section for the new version.
 - [ ] `python -m unittest discover -s tests -v` passes.
 - [ ] `python packaging/build_extension.py --check` passes.

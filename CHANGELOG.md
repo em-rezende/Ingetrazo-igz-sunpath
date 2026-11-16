@@ -4,6 +4,53 @@ All notable changes to **igz_sunpath** are documented here. The format is
 based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the
 project follows [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] — 2026-11-16
+
+Feature release, tested with **IngeTrazo 0.5.8**. The plugin is now a
+proper Python package: `igz_sunpath/__init__.py` exposes only `setup(app)`
+and all runtime code lives under `igz_sunpath/core/`.
+
+### Added
+
+- **Sun Panel** — a dockable side panel (`app.add_panel`) with date/time
+  sliders, north rotation, the location box, dome controls, animation
+  controls, export settings and the FFmpeg status. Its widgets follow the
+  dock width.
+- **Sun animation** — **Play** and **Stop** toolbar buttons advance the
+  current time in steps of 60, 30, 15, 10, 5 or 1 minute per frame until
+  sunset, updating the overlay, the vector and the dome live.
+- **Export Sequence / Video** — a new `ExportDialog` exports a **PNG image
+  sequence** or an **MP4 video** (size, keep-aspect-ratio, include-dome
+  and step-per-frame), with a preview of the animated viewport.
+- **FFmpeg manager** — detects `ffmpeg` on `PATH` or in the plugin config
+  folder, can **download and extract** it (`DependencyDialog`) and shows
+  the dependency status in the panel.
+- **New icons** for Play, Stop, Save/Export, Set Sun and the panel tab
+  (dark and light variants).
+
+### Changed
+
+- **Source layout:** the former single-file module is split into
+  `igz_sunpath/core/{state,toolbar,panel,overlay,overlay_paint,dome_geometry,solar_math,shadows,georef,scene_state,sun_animator,export_dialog,ffmpeg,capture,i18n_loader}.py`.
+- `packaging/build_extension.py` now packages that layout (`core/`,
+  `icons/`, `i18n/`, `screenshots/` and the docs) and writes a
+  `dist/igz_sunpath.zip.sha256` sidecar next to the archive.
+- The toolbar object name is now `igz_sunpath_toolbar`; the **Sun Panel**
+  action is appended only when the host provides `app.add_panel`.
+- Static and GUI smoke tests were rewritten for the package layout.
+
+### Fixed
+
+- **Removed `sys.path.insert(0, _HERE)` from `__init__.py`.** With the new
+  `core/` folder it shadowed IngeTrazo's own `core` package, which broke
+  `core.i18n` (interface always fell back to English) and could affect the
+  host's `core.sun` import.
+- **Chinese catalog:** `i18n/zh.json` was renamed to `i18n/zh-CN.json`
+  (the code and the docs have always used the `zh-CN` language code) and
+  its invalid JSON (a missing comma) was repaired. All seven catalogs now
+  load and share the same keys.
+- Added the four missing action-description strings to `en.json`.
+
 ## [1.0.0] — 2026-10-18
 
 First public release, tested with **IngeTrazo 0.5.8**.
